@@ -21,12 +21,19 @@ async function fetchCountry() {
       url: "https://ipinfo.io/country",
       headers: { "User-Agent": UA, Accept: "text/plain" },
     });
-    if (error || !data) return "";
     const cc = (data || "").trim().toUpperCase();
-    return /^[A-Z]{2}$/.test(cc) ? cc : "";
-  } catch (_) {
-    return "";
-  }
+    if (/^[A-Z]{2}$/.test(cc)) return cc;
+  } catch (_) {}
+  // Fallback: CF trace on a CF-fronted host (same-proxy view)
+  try {
+    const { error: e2, response: r2, data: d2 } = await request("GET", {
+      url: "https://www.cloudflare.com/cdn-cgi/trace",
+      headers: { "User-Agent": UA, Accept: "text/plain" },
+    });
+    const m = (d2 || "").match(/loc=([A-Za-z]{2})/);
+    if (m) return m[1].toUpperCase();
+  } catch (_) {}
+  return "";
 }
 
 // 主探针：Gemini REST API。Google 在受限地区返回 400 FAILED_PRECONDITION

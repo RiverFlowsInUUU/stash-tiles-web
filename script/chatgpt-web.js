@@ -12,17 +12,25 @@ const UA =
 
 // 出口地区：chatgpt.com 走 Cloudflare，/cdn-cgi/trace 返回 loc=XX（与服务看到的出口一致）
 async function fetchCountry() {
+  // 1) Cloudflare trace (same domain as primary probe)
   try {
     const { error, response, data } = await request("GET", {
       url: "https://chatgpt.com/cdn-cgi/trace",
       headers: { "User-Agent": UA, Accept: "text/plain" },
     });
-    if (error || !data) return "";
     const m = (data || "").match(/loc=([A-Za-z]{2})/);
-    return m ? m[1].toUpperCase() : "";
-  } catch (_) {
-    return "";
-  }
+    if (m) return m[1].toUpperCase();
+  } catch (_) {}
+  // 2) Fallback: ipinfo (lightweight, same-proxy egress)
+  try {
+    const { error: e2, response: r2, data: d2 } = await request("GET", {
+      url: "https://ipinfo.io/country",
+      headers: { "User-Agent": UA, Accept: "text/plain" },
+    });
+    const cc = (d2 || "").trim().toUpperCase();
+    if (/^[A-Z]{2}$/.test(cc)) return cc;
+  } catch (_) {}
+  return "";
 }
 
 async function main() {
