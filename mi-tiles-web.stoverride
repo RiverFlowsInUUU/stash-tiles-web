@@ -24,31 +24,31 @@ tiles:
     url: https://www.spotify.com
   - name: YTMusic-Check
     title: YouTube Music
-    icon: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/img/ytmusic.png
+    icon: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/img/ytmusic.png
     collapsed: true
     url: https://music.youtube.com
   - name: Netflix-Check
     title: Netflix
-    icon: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/img/netflix.png
+    icon: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/img/netflix.png
     collapsed: true
     url: https://www.netflix.com
 
 script-providers:
   ChatGPT-Web-Check:
-    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/chatgpt-web.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/chatgpt-web.js
     path: tiles/chatgpt-web.js
   Gemini-Check:
-    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/gemini-web.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/gemini-web.js
     path: tiles/gemini-web.js
   Claude-Check:
-    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/claude-web.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/claude-web.js
     path: tiles/claude-web.js
   Spotify-Check:
     url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/spotify.js
     path: tiles/spotify.js
   YTMusic-Check:
-    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/ytmusic-web.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/ytmusic-web.js
     path: tiles/ytmusic-web.js
   Netflix-Check:
-    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/netflix-web.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/netflix-web.js
     path: tiles/netflix-web.js
