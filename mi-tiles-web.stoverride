@@ -38,7 +38,7 @@ script-providers:
     url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/chatgpt-web.js
     path: tiles/chatgpt-web.js
   Gemini-Check:
-    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/gemini-web.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@f7ffbacf966edb1fe76908247c23943bc158a729/script/gemini-web.js
     path: tiles/gemini-web.js
   Claude-Check:
     url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@57822b9/script/claude-web.js
