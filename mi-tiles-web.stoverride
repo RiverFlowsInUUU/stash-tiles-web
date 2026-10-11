@@ -25,14 +25,14 @@ tiles:
 
 script-providers:
   ChatGPT-Web-Check:
-    url: https://fastly.jsdelivr.net/gh/StashNetworks/misc@main/collapsed-tiles/script/chatgpt-web.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/chatgpt-web.js
     path: tiles/chatgpt-web.js
   Gemini-Check:
     url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/gemini-web.js
     path: tiles/gemini-web.js
   Claude-Check:
-    url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/claude.js
-    path: tiles/claude.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/claude-web.js
+    path: tiles/claude-web.js
   Spotify-Check:
     url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/spotify.js
     path: tiles/spotify.js

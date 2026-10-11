@@ -14,6 +14,21 @@ function httpStatus(response) {
 const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
+// 出口地区：经由同一代理出口查询（与 Gemini 看到的出口一致），失败则返回空
+async function fetchCountry() {
+  try {
+    const { error, response, data } = await request("GET", {
+      url: "https://ipinfo.io/country",
+      headers: { "User-Agent": UA, Accept: "text/plain" },
+    });
+    if (error || !data) return "";
+    const cc = (data || "").trim().toUpperCase();
+    return /^[A-Z]{2}$/.test(cc) ? cc : "";
+  } catch (_) {
+    return "";
+  }
+}
+
 // 轻量探针：Gemini REST API（返回 400 API_KEY_INVALID = 出口能连通 Google AI）
 // 被墙地区会返回 403 SERVICE_DISABLED / 地域错误，而非 400
 async function checkLight() {
@@ -93,7 +108,11 @@ async function checkWeb() {
 async function main() {
   const light = await checkLight();
   if (light.state === "ok") {
-    $done({ content: "Available", backgroundColor: "#7E83FF" });
+    const cc = await fetchCountry();
+    $done({
+      content: cc ? `Available (${cc})` : "Available",
+      backgroundColor: "#7E83FF",
+    });
     return;
   }
   if (light.state === "blocked") {
@@ -102,7 +121,11 @@ async function main() {
   }
   const web = await checkWeb();
   if (web.ok) {
-    $done({ content: "Available", backgroundColor: "#7E83FF" });
+    const cc = await fetchCountry();
+    $done({
+      content: cc ? `Available (${cc})` : "Available",
+      backgroundColor: "#7E83FF",
+    });
     return;
   }
   $done({ content: web.msg, backgroundColor: "" });
