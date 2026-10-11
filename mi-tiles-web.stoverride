@@ -1,0 +1,34 @@
+name: My Tiles - ChatGPT Gemini Claude Spotify
+desc: 折叠磁贴 - 检测 ChatGPT / Gemini / Claude / Spotify 解锁状态
+
+tiles:
+  - name: ChatGPT-Web-Check
+    title: ChatGPT
+    icon: https://fastly.jsdelivr.net/gh/StashNetworks/misc@main/collapsed-tiles/img/chatgpt.png
+    collapsed: true
+    url: https://chatgpt.com
+  - name: Gemini-Check
+    title: Gemini
+    icon: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/img/gemini.png
+    collapsed: true
+    url: https://gemini.google.com
+  - name: Claude-Check
+    title: Claude
+    icon: https://raw.githubusercontent.com/pengyanai/misc/refs/heads/main/collapsed-tiles/img/claude.png
+    collapsed: true
+    url: https://claude.ai
+  - name: Spotify-Check
+    title: Spotify
+    icon: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/img/spotify.png
+    collapsed: true
+    url: https://www.spotify.com
+
+script-providers:
+  ChatGPT-Web-Check:
+    url: https://fastly.jsdelivr.net/gh/StashNetworks/misc@main/collapsed-tiles/script/chatgpt-web.js
+  Gemini-Check:
+    url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/gemini.js
+  Claude-Check:
+    url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/claude.js
+  Spotify-Check:
+    url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/spotify.js
