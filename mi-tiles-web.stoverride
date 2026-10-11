@@ -28,8 +28,8 @@ script-providers:
     url: https://fastly.jsdelivr.net/gh/StashNetworks/misc@main/collapsed-tiles/script/chatgpt-web.js
     path: tiles/chatgpt-web.js
   Gemini-Check:
-    url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/gemini.js
-    path: tiles/gemini.js
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/gemini-web.js
+    path: tiles/gemini-web.js
   Claude-Check:
     url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/claude.js
     path: tiles/claude.js
