@@ -22,6 +22,16 @@ tiles:
     icon: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/img/spotify.png
     collapsed: true
     url: https://www.spotify.com
+  - name: YTMusic-Check
+    title: YouTube Music
+    icon: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/img/ytmusic.png
+    collapsed: true
+    url: https://music.youtube.com
+  - name: Netflix-Check
+    title: Netflix
+    icon: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/img/netflix.png
+    collapsed: true
+    url: https://www.netflix.com
 
 script-providers:
   ChatGPT-Web-Check:
@@ -36,3 +46,9 @@ script-providers:
   Spotify-Check:
     url: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/script/spotify.js
     path: tiles/spotify.js
+  YTMusic-Check:
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/ytmusic-web.js
+    path: tiles/ytmusic-web.js
+  Netflix-Check:
+    url: https://cdn.jsdelivr.net/gh/RiverFlowsInUUU/stash-tiles-web@main/script/netflix-web.js
+    path: tiles/netflix-web.js
