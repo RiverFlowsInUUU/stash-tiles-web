@@ -1,5 +1,5 @@
 async function request(method, params) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const httpMethod = $httpClient[method.toLowerCase()];
     httpMethod(params, (error, response, data) => {
       resolve({ error, response, data });
@@ -29,9 +29,11 @@ async function fetchCountry() {
   }
 }
 
-// 轻量探针：Gemini REST API（返回 400 API_KEY_INVALID = 出口能连通 Google AI）
-// 被墙地区会返回 403 SERVICE_DISABLED / 地域错误，而非 400
-async function checkLight() {
+// 主探针：Gemini REST API。Google 在受限地区返回 400 FAILED_PRECONDITION
+// "User location is not supported for the API use"，而不是 API_KEY_INVALID。
+// 注意：官方首页 HTML 在被墙地区也返回 200 同样外壳（拦截在客户端 JS），
+// 所以首页只能做辅助，不能作为 Available 的依据。
+async function checkAPI() {
   const { error, response, data } = await request("GET", {
     url: "https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSyDummyProbeOnly",
     headers: {
@@ -45,28 +47,19 @@ async function checkLight() {
   }
   const status = httpStatus(response);
   const body = (data || "").toLowerCase();
-  // 地域封锁信号（Google API 在受限地区返回 403 + service_disabled / location）
+
+  // 受限地区信号（任一命中即判墙）
   if (
-    status === 403 ||
+    body.includes("failed_precondition") ||
+    body.includes("user location is not supported") ||
+    body.includes("not supported for the api") ||
     body.includes("service_disabled") ||
-    body.includes("location") ||
-    body.includes("not available") ||
-    body.includes("unsupported") ||
-    body.includes("unavailable in your region")
+    body.includes("unavailable in your region") ||
+    (status === 403 && !body.includes("api_key_invalid"))
   ) {
-    // 403 且带 API_KEY_INVALID 不算墙（key 本来就是假的）；纯 403 才判墙
-    if (body.includes("api_key_invalid") && status !== 403) {
-      return { state: "ok", msg: "Available" };
-    }
-    if (status === 403 && !body.includes("api_key_invalid")) {
-      return { state: "blocked", msg: "Not Available" };
-    }
-    if (body.includes("api_key_invalid")) {
-      return { state: "ok", msg: "Available" };
-    }
     return { state: "blocked", msg: "Not Available" };
   }
-  // 400 + API_KEY_INVALID = 连通正常（预期结果）
+  // 400 + API_KEY_INVALID = 出口能连通 Google AI（假 key 预期结果）
   if (status === 400 && body.includes("api_key_invalid")) {
     return { state: "ok", msg: "Available" };
   }
@@ -76,8 +69,8 @@ async function checkLight() {
   return { state: "retry", msg: `Error (${status})` };
 }
 
-// 回退：gemini.google.com 首页 HTML（带完整浏览器头 + 超时容忍）
-async function checkWeb() {
+// 辅助探针：首页只用于确认“墙”（出现地域关键词），绝不单独判 Available
+async function checkWebBlocked() {
   const { error, response, data } = await request("GET", {
     url: "https://gemini.google.com",
     headers: {
@@ -89,7 +82,7 @@ async function checkWeb() {
     },
   });
   if ((error && !response) || !response) {
-    return { ok: false, msg: "Network Error" };
+    return { blocked: false, reachable: false };
   }
   const body = (data || "").toLowerCase();
   if (
@@ -97,17 +90,14 @@ async function checkWeb() {
     body.includes("unsupported country") ||
     body.includes("unavailable in your region")
   ) {
-    return { ok: false, msg: "Not Available" };
+    return { blocked: true, reachable: true };
   }
-  if (body.includes("gemini")) {
-    return { ok: true };
-  }
-  return { ok: false, msg: "Unknown" };
+  return { blocked: false, reachable: true };
 }
 
 async function main() {
-  const light = await checkLight();
-  if (light.state === "ok") {
+  const api = await checkAPI();
+  if (api.state === "ok") {
     const cc = await fetchCountry();
     $done({
       content: cc ? `Available (${cc})` : "Available",
@@ -115,20 +105,22 @@ async function main() {
     });
     return;
   }
-  if (light.state === "blocked") {
-    $done({ content: light.msg, backgroundColor: "" });
+  if (api.state === "blocked") {
+    $done({ content: api.msg, backgroundColor: "" });
     return;
   }
-  const web = await checkWeb();
-  if (web.ok) {
-    const cc = await fetchCountry();
-    $done({
-      content: cc ? `Available (${cc})` : "Available",
-      backgroundColor: "#7E83FF",
-    });
+  // API 不确定（抖动/非预期状态码）→ 看首页有没有明确的墙，有墙才判墙，
+  // 否则如实报 Error/Unknown，不再默认 Available（避免误报）
+  const web = await checkWebBlocked();
+  if (web.blocked) {
+    $done({ content: "Not Available", backgroundColor: "" });
     return;
   }
-  $done({ content: web.msg, backgroundColor: "" });
+  if (!web.reachable) {
+    $done({ content: "Network Error", backgroundColor: "" });
+    return;
+  }
+  $done({ content: api.msg || "Unknown", backgroundColor: "" });
 }
 
 (async () => {
