@@ -5,22 +5,22 @@ tiles:
   - name: ChatGPT-Web-Check
     title: ChatGPT
     icon: https://fastly.jsdelivr.net/gh/StashNetworks/misc@main/collapsed-tiles/img/chatgpt.png
-    collapsed: false
+    collapsed: true
     url: https://chatgpt.com
   - name: Gemini-Check
     title: Gemini
     icon: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/img/gemini.png
-    collapsed: false
+    collapsed: true
     url: https://gemini.google.com
   - name: Claude-Check
     title: Claude
     icon: https://raw.githubusercontent.com/pengyanai/misc/refs/heads/main/collapsed-tiles/img/claude.png
-    collapsed: false
+    collapsed: true
     url: https://claude.ai
   - name: Spotify-Check
     title: Spotify
     icon: https://fastly.jsdelivr.net/gh/pengyanai/misc@main/collapsed-tiles/img/spotify.png
-    collapsed: false
+    collapsed: true
     url: https://www.spotify.com
 
 script-providers:
